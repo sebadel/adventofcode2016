@@ -30,7 +30,6 @@ def valid_tls(s):
       return True
   return False
 
-
 def abas(s):
   i = 0
   t = []
@@ -46,11 +45,6 @@ def valid_ssl(s):
       for hypernet in hypernets(s):
         for bab in abas(hypernet):
           if aba[0] == bab[1] and aba[1] == bab[0]:
-            print s
-            print [h for h in hypernets(s)]
-            print [abas(h) for h in hypernets(s)]
-            print [n for n in supernets(s)]
-            print [abas(n) for n in supernets(s)]
             return True
   return False
 
@@ -69,8 +63,5 @@ def part2(ips):
   return cnt
 
 ips = open('data/day07.txt', 'r').readlines()
-test = ['aaabbbcccab[aba]bac',
-]
-
 print part2(ips)
 
