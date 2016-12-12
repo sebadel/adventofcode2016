@@ -2,26 +2,28 @@
 
 import re
 
-def expand_pattern(p):
-  result = ''
-  g = re.match(r'(.*?)\((\d+)x(\d+)\)(.*)', p)
-  if g:
-    (prefix, char, multiple, rest) = g.groups()
-    n = rest[:int(char)] * int(multiple)
-    return prefix + n + rest[int(char):]
-  else:
-    print "Error: %s" % p
-    exit()
-#    print len(p)
-    return p
-
 def part1(data):
-  """data is an array; important for assignment by reference."""
-  data[0] = data[0].replace(' ', '')
-  while '(' in data[0]:
-    data[0] = expand_pattern(data[0])
-    print 'Len: %08d Count "(": %04d Count ")": %04d' % (len(data[0]), data[0].count('('), data[0].count(')'))
-  print 'LEN: %d' % len(data[0])
+  if '(' in data:
+    g = re.match(r'^(.*?)\((\d+)x(\d+)\)', data)
+    if g:
+      (prefix, char, multiple) = g.groups()
+      rest = data[len(prefix) + len(char)+len(multiple)+3+int(char):]
+      return len(prefix) + (int(char) * int(multiple)) + part1(rest)
+  else:
+    return len(data)
+
+def part2(data):
+  if '(' in data:
+    g = re.match(r'^(.*?)\((\d+)x(\d+)\)(.*)', data)
+    if g:
+      (prefix, char, multiple, rest) = g.groups()
+      expanded_pattern = rest[:int(char)] * int(multiple)
+      rest = rest[int(char):]
+      return len(prefix) + part2(expanded_pattern) + part2(rest)
+  else:
+    return len(data)
 
 data = open('data/day09.txt', 'r').readlines()
-part1(data)
+#data = ['(25x3)(3x3)ABC(2x3)XY(5x2)PQRSTX(18x9)(3x2)TWO(5x7)SEVEN']
+#print part1(data[0])
+print part2(data[0])
