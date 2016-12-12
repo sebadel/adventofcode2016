@@ -17,9 +17,9 @@ def part2(data):
     g = re.match(r'^(.*?)\((\d+)x(\d+)\)(.*)', data)
     if g:
       (prefix, char, multiple, rest) = g.groups()
-      expanded_pattern = rest[:int(char)] * int(multiple)
+      expanded_pattern = part2(rest[:int(char)]) * int(multiple)
       rest = rest[int(char):]
-      return len(prefix) + part2(expanded_pattern) + part2(rest)
+      return len(prefix) + expanded_pattern + part2(rest)
   else:
     return len(data)
 
